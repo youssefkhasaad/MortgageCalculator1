@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/prism.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #ec920c;">
+      <a class="navbar-brand" href="#">Morgage <br> Calculator</a>
+      <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+          aria-expanded="false" aria-label="Toggle navigation"></button>
+      <div class="collapse navbar-collapse" id="collapsibleNavId">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+              <li class="nav-item">
+                  <a class="nav-link" href="solve.html">Solve</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="code.html">Code</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://github.com/youssefkhasaad/MortgageCalculator1">github</a>
+            </li>
+          </ul>
+
+      </div>
+  </nav>
+  <body>
+    <pre class="line-numbers language-javascript"><code class="language-javascript">
+        //function to clear the values using clear button.
+        function clearValues(){
+            document.loanForm.loan.value="";
+            document.loanForm.term.value="";
+            document.loanForm.interest.value="";
+        
+            document.getElementById("loanInfo").innerHTML="";
+            document.getElementById("table").innerHTML="";
+        }
+        
+        function verify(){
+            var loan=document.loanForm.loan.value;
+            var term =document.loanForm.term.value;
+            var interest = document.loanForm.interest.value;
+        
+            if(loan <= 0 || isNaN(Number(loan)) ){
+               document.loanForm.loan.value="";
+        
+            }
+            else if(term <= 0 || parseInt(term) != term ){
+                document.loanForm.term.value="";
+            }
+            else if(interest <= 0 || interest > 99 ||  isNaN(Number(interest)) ){
+                document.loanForm.interest.value="";
+            }
+            else{
+                calculate(parseFloat(loan), parseInt(term), parseFloat(interest));
+            }
+        }
+        
+        function calculate(loan, term, interest){
+            i = interest/100;
+            var monthly_payment = loan*(i/12)*Math.pow((1+i/12),term)/ (Math.pow((1+i/12),term)-1);
+            monthly_payment =monthly_payment.toFixed(2);
+        
+           var total_interest = (monthly_payment*term)-loan;
+           total_interest = total_interest.toFixed(2);
+            
+            document.getElementById("monthlyPayment").innerText =  monthly_payment;
+            document.getElementById("totalPrincipal").innerText = loan;
+            document.getElementById("totalInterest").innerText=total_interest;
+            document.getElementById("totalCost").innerText=monthly_payment*term;
+        
+            let  remaining_balance = 0,
+            interest_amount = 0,
+            principal_payment = 0;
+        
+            for(i=1; i<=term;i++){
+               remaining_balance= loan-monthly_payment;
+              interest_amount= remaining_balance*interest/1200;
+              principal_payment = monthly_payment - interest_amount;
+              total_interest = interest_amount;
+               remaining_balance = loan- principal_payment;
+        
+            document.getElementById("table").innerHTML += `${i}${monthly_payment}${principal_payment}${interest_amount}${total_interest}${remaining_balance}`
+        
+            }
+        
+        
+        
+        
+        
+        
+        }
+        
+
+
+</code></pre>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="js/prism.js"></script>
+
+
+
+</body>
